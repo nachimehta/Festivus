@@ -1,7 +1,9 @@
 # Festivus
-## dependencies
-npm install cheerio
-npm install request
+## npm dependencies
+ cheerio
+ request
+ oriento
+ date-utils
 
 ## usage
 Run from command line and provide the URL as your argument. Output should be a list of artists provided on that page.
