@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var oriento = require('oriento');
+var dbconfig = require('./dbconfig');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -56,5 +58,19 @@ app.use(function(err, req, res, next) {
   });
 });
 
+var server = oriento({
+    host: dbconfig.host,
+    port: 2424,
+    username: dbconfig.user,
+    password: dbconfig.password
+});
+
+db = server.use('festivus');
+db.open(function(err) {
+    if (err) {
+        throw err;
+    }
+    console.log("succesfully connected to orientdb");
+});
 
 module.exports = app;

@@ -1,11 +1,43 @@
-var app = angular.module('festivus', []);
+var app = angular.module('festivus', ['ui.router']);
+
+app.config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        function($stateProvider, $urlRouterProvider) {
+
+            $stateProvider
+                .state('home', {
+                    url: '/home',
+                    templateUrl: '/home.html',
+                    controller: 'MainCtrl',
+                    resolve: {
+                        festivalPromise: ['festivals', function(festivals){
+                            return festivals.getAvailable();
+                        }]
+                    }
+                });
+
+            $urlRouterProvider.otherwise('home');
+        }]);
+
+app.factory('festivals', ['$http', function($http){
+    var o = {
+        festivals: []
+    };
+
+    o.getAvailable = function() {
+        return $http.get('/festivals').success(function(data){
+            angular.copy(data, o.festivals);
+        });
+    };
+
+    return o
+}]);
 
 app.controller('MainCtrl', [
         '$scope',
-        function($scope) {
+        'festivals',
+        function($scope, festivals) {
             $scope.test = 'Hello World';
-            $scope.artists = ['artist 1',
-                              'artist 2',
-                              'artist 3',
-                              'artist 4'];
+            $scope.festivals = festivals.festivals;
         }]);
