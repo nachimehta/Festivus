@@ -13,6 +13,10 @@ app.config([
                     resolve: {
                         festivalPromise: ['festivals', function(festivals){
                             return festivals.getAvailable();
+                        }],
+
+                        artistPromise: ['artists', function(artists){
+                            return artists.getAvailable();
                         }]
                     }
                 });
@@ -34,10 +38,26 @@ app.factory('festivals', ['$http', function($http){
     return o
 }]);
 
+app.factory('artists', ['$http', function($http){
+    var o = {
+        artists: []
+    };
+
+    o.getAvailable = function() {
+        return $http.get('/artists').success(function(data){
+            angular.copy(data, o.artists);
+        });
+    };
+
+    return o;
+}]);
+
 app.controller('MainCtrl', [
         '$scope',
         'festivals',
-        function($scope, festivals) {
+        'artists',
+        function($scope, festivals, artists) {
             $scope.test = 'Hello World';
             $scope.festivals = festivals.festivals;
+            $scope.artists = artists.artists;
         }]);

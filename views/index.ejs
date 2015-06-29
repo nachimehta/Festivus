@@ -13,9 +13,14 @@
         </div>
         <script type="text/ng-template" id="/home.html">
             <div class="page-header">
-                <h1>Festival Stuff</h1>
+                <h1>Your Festivals</h1>
                 <div ng-repeat="festival in festivals">
                     {{festival.name}}
+                </div>
+
+                <h2>Artists that are performing at both</h2>
+                <div ng-repeat="artist in artists">
+                    {{artist.name}}
                 </div>
             </div>
         </script>

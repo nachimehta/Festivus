@@ -12,4 +12,10 @@ router.get('/festivals', function(req, res, next) {
     });
 });
 
+router.get('/artists', function(req, res, next) {
+    db.query('select from (select expand(in("performs_at")) from festival where name = "Outside Lands Music & Arts Festival") where out("performs_at") contains (date > sysdate("YYYY-MM-dd") and name <> "Outside Lands Music & Arts Festival")').then(function (results) {
+        res.json(results);
+    });
+});
+
 module.exports = router;
