@@ -6,8 +6,8 @@ require('date-utils');
 var server = oriento({
     host: 'localhost',
     port: 2424,
-    username: 'root',
-    password: 'ihc321an'
+    username: 'vandana',
+    password: 'nachi'
 });
 
 var db = server.use('festivus');
@@ -42,7 +42,7 @@ request({ "url": url},
                         console.log('upserted', artist);
                 });
 
-                db.exec('create edge performs_at from (select from artist where name=:artist) to (select from festival where name=:festival)', {
+                db.exec('create edge performed_at from (select from artist where name=:artist) to (select from festival where name=:festival)', {
                     params: {
                         artist: artists[i],
                         festival: festival
